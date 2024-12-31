@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxímetro - Andalucía RP</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: url('https://tse3.mm.bing.net/th/id/OIP.33vNFqZH7DzOXOVUahgWVgHaEK?w=264&h=180&c=7&r=0&o=5&pid=1.7');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            position: relative;
+        }
+        h1 {
+            color: #FF0000;
+            font-size: 36px;
+            font-family: 'Roboto', sans-serif;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            margin: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            color: white;
+        }
+        #startButton {
+            background-color: #4CAF50;
+        }
+        #startButton:hover {
+            background-color: #45a049;
+        }
+        #pauseButton {
+            background-color: #ff9800;
+        }
+        #pauseButton:hover {
+            background-color: #fb8c00;
+        }
+        #stopButton {
+            background-color: #f44336;
+        }
+        #stopButton:hover {
+            background-color: #e53935;
+        }
+        .taximeter, .amounts {
+            display: block;
+            margin-bottom: 15px;
+            background-color: #222;
+            color: #ff0000;
+            padding: 1px;
+            border-radius: 15px;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            width: 100%;
+        }
+        .taximeter h2, .amounts p {
+            margin: 5px 0;
+        }
+        .developer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
+            color: #ccc;
+        }
+        .description {
+            font-size: 16px;
+            margin-top: 15px;
+            color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="developer">Desarrollado por Nautfe</div>
+        <h1>Taxímetro Andalucía RP</h1>
+        <div>
+            <button id="startButton">Iniciar</button>
+            <button id="pauseButton">Pausar</button>
+            <button id="stopButton">Parar</button>
+        </div>
+        <div class="taximeter">
+            <h2>Tiempo: <span id="time">0</span> segundos</h2>
+            <h2>Costo: €<span id="cost">0.00</span></h2>
+            <h2><strong>Dinero Recibido: </strong>€<span id="received">0.00</span></h2>
+            <h2><strong>Dinero CEO: </strong>€<span id="ceo">0.00</span></h2>
+        </div>
+        <div class="description">
+            Esta página web está hecha para el uso de la empresa de taxis de Andalucía RP.
+        </div>
+    </div>
+
+    <script>
+        let startTime;
+        let elapsedTime = 0;
+        let timer;
+        const costPerSecond = 0.75;
+
+        document.getElementById('startButton').addEventListener('click', () => {
+            startTime = Date.now() - elapsedTime * 1000;
+            timer = setInterval(updateTimeAndCost, 1000);
+        });
+
+        document.getElementById('pauseButton').addEventListener('click', () => {
+            clearInterval(timer);
+            elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+        });
+
+        document.getElementById('stopButton').addEventListener('click', () => {
+            clearInterval(timer);
+            elapsedTime = 0;
+            document.getElementById('time').textContent = elapsedTime;
+            const totalCost = (elapsedTime * costPerSecond).toFixed(2);
+            document.getElementById('cost').textContent = totalCost;
+
+            const received = (totalCost * 0.5).toFixed(2);
+            const ceo = (totalCost * 0.5).toFixed(2);
+
+            document.getElementById('received').textContent = received;
+            document.getElementById('ceo').textContent = ceo;
+        });
+
+        function updateTimeAndCost() {
+            elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('time').textContent = elapsedTime;
+            const totalCost = (elapsedTime * costPerSecond).toFixed(2);
+            document.getElementById('cost').textContent = totalCost;
+
+            const received = (totalCost * 0.5).toFixed(2);
+            const ceo = (totalCost * 0.5).toFixed(2);
+
+            document.getElementById('received').textContent = received;
+            document.getElementById('ceo').textContent = ceo;
+        }
+    </script>
+</body>
+</html>
