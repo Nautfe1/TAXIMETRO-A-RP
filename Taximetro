@@ -8,82 +8,83 @@
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
         body {
             font-family: 'Roboto', sans-serif;
-            background-image: url('https://tse3.mm.bing.net/th/id/OIP.33vNFqZH7DzOXOVUahgWVgHaEK?w=264&h=180&c=7&r=0&o=5&pid=1.7'); /* Reemplaza con la URL de tu imagen de fondo */
+            background-image: url('https://tse3.mm.bing.net/th/id/OIP.33vNFqZH7DzOXOVUahgWVgHaEK?w=264&h=180&c=7&r=0&o=5&pid=1.7');
             background-size: cover;
             background-position: center;
-            color: #333;
+            color: #fff;
             text-align: center;
             margin: 0;
             padding: 0;
         }
         .container {
-            max-width: 600px;
+            max-width: 500px;
             margin: 50px auto;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             position: relative;
         }
         h1 {
-            color: #007BFF;
-            font-size: 48px;
+            color: #FF0000;
+            font-size: 36px;
             font-family: 'Roboto', sans-serif;
-            text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            margin-bottom: 20px;
         }
         button {
-            padding: 15px 30px;
-            font-size: 18px;
-            margin: 10px;
+            padding: 12px 25px;
+            font-size: 16px;
+            margin: 8px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            color: white;
         }
         #startButton {
             background-color: #4CAF50;
-            color: white;
         }
         #startButton:hover {
             background-color: #45a049;
         }
         #pauseButton {
             background-color: #ff9800;
-            color: white;
         }
         #pauseButton:hover {
             background-color: #fb8c00;
         }
         #stopButton {
             background-color: #f44336;
-            color: white;
         }
         #stopButton:hover {
             background-color: #e53935;
         }
-        .display {
-            font-size: 24px;
-            margin: 20px 0;
-        }
-        .description {
-            font-size: 18px;
-            margin-top: 20px;
-            color: #555;
-        }
-        .taximeter {
-            display: inline-block;
-            padding: 10px;
-            background-color: #555;
+        .taximeter, .amounts {
+            display: block;
+            margin-bottom: 15px;
+            background-color: #222;
             color: #ff0000;
-            border-radius: 5px;
+            padding: 1px;
+            border-radius: 15px;
+            text-align: center;
             font-family: 'Courier New', Courier, monospace;
+            width: 100%;
+        }
+        .taximeter h2, .amounts p {
+            margin: 5px 0;
         }
         .developer {
             position: absolute;
             top: 10px;
             right: 10px;
             font-size: 14px;
-            color: #555;
+            color: #ccc;
+        }
+        .description {
+            font-size: 16px;
+            margin-top: 15px;
+            color: #ddd;
         }
     </style>
 </head>
@@ -96,11 +97,11 @@
             <button id="pauseButton">Pausar</button>
             <button id="stopButton">Parar</button>
         </div>
-        <div class="display">
-            <div class="taximeter">
-                <h2>Tiempo: <span id="time">0</span> segundos</h2>
-                <h2>Costo: €<span id="cost">0.00</span></h2>
-            </div>
+        <div class="taximeter">
+            <h2>Tiempo: <span id="time">0</span> segundos</h2>
+            <h2>Costo: €<span id="cost">0.00</span></h2>
+            <h2><strong>Dinero Recibido: </strong>€<span id="received">0.00</span></h2>
+            <h2><strong>Dinero CEO: </strong>€<span id="ceo">0.00</span></h2>
         </div>
         <div class="description">
             Esta página web está hecha para el uso de la empresa de taxis de Andalucía RP.
@@ -127,13 +128,27 @@
             clearInterval(timer);
             elapsedTime = 0;
             document.getElementById('time').textContent = elapsedTime;
-            document.getElementById('cost').textContent = (elapsedTime * costPerSecond).toFixed(2);
+            const totalCost = (elapsedTime * costPerSecond).toFixed(2);
+            document.getElementById('cost').textContent = totalCost;
+
+            const received = (totalCost * 0.5).toFixed(2);
+            const ceo = (totalCost * 0.5).toFixed(2);
+
+            document.getElementById('received').textContent = received;
+            document.getElementById('ceo').textContent = ceo;
         });
 
         function updateTimeAndCost() {
             elapsedTime = Math.floor((Date.now() - startTime) / 1000);
             document.getElementById('time').textContent = elapsedTime;
-            document.getElementById('cost').textContent = (elapsedTime * costPerSecond).toFixed(2);
+            const totalCost = (elapsedTime * costPerSecond).toFixed(2);
+            document.getElementById('cost').textContent = totalCost;
+
+            const received = (totalCost * 0.5).toFixed(2);
+            const ceo = (totalCost * 0.5).toFixed(2);
+
+            document.getElementById('received').textContent = received;
+            document.getElementById('ceo').textContent = ceo;
         }
     </script>
 </body>
